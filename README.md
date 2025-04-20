@@ -1,6 +1,6 @@
 # ModaPay API
 
-ModaPay API adalah **API** yang digunakan untuk menangani sistem otentikasi dan manajemen pengguna pada platform ModaPay. API ini dibangun menggunakan **PHP Native**, tanpa framework tambahan, dan akan terus berkembang sesuai kebutuhan. ModaPay API saat ini mencakup fitur untuk **login**, **registrasi**, serta **manajemen data pengguna**.
+ModaPay API adalah **API** yang digunakan untuk menangani API pada aplikasi ModaPay. API ini dibangun menggunakan **PHP Native**, tanpa framework tambahan, dan akan terus berkembang sesuai kebutuhan. ModaPay API saat ini mencakup fitur untuk **login**, **registrasi**, serta **manajemen data pengguna**.
 
 ## Fitur
 
