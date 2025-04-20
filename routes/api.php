@@ -1,0 +1,21 @@
+<?php
+$path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$route = trim(str_replace(BASE_URL_PATH, '', $path), '/');
+
+if (isset($_GET['route'])) {
+  $route = $_GET['route'];
+}
+
+if (strpos($route, 'auth') === 0) {
+  require_once __DIR__ . "/auth.php"; // Route ke Auth API
+  handle_auth_routes($route);
+  exit;
+} else if (strpos($route, 'users') === 0 || strpos($route, 'user') === 0) {
+  require_once __DIR__ . "/user.php"; // Route ke User API
+  handle_user_routes($route);
+} else {
+  http_response_code(404);
+  echo json_encode(["debug_route" => $route, "message" => "Route not found"]);
+  exit;
+}
+?>
