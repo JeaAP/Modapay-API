@@ -6,7 +6,7 @@ if (isset($_GET['route'])) {
   $route = $_GET['route'];
 
   $route_parts = explode('/', $route);
-  $route = $route_parts[5];
+  $route = $route_parts[4] ?? "null"; // gunakan 0 untuk localhost
 }
 
 if (strpos($route, 'auth') === 0) {
@@ -21,7 +21,7 @@ if (strpos($route, 'auth') === 0) {
   handle_product_routes($route);
 } else {
   http_response_code(404);
-  echo json_encode(["debug_route" => $route . "->" . $route_parts[5], "message" => "Route not found"]);
+  echo json_encode(["debug_route" => $route, "message" => "Route not found"]);
   exit;
 }
 ?>

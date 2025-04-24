@@ -5,8 +5,8 @@ function handle_user_routes($url)
 {
   $method = $_SERVER['REQUEST_METHOD'];
   $route_parts = explode('/', $url);
-  $route = $route_parts[5]; // gunakan 0 untuk localhost
-  $user_id = $route_parts[6] ?? null; // gunakan 1 untuk localhost
+  $route = $route_parts[4]; // gunakan 0 untuk localhost
+  $user_id = $route_parts[5] ?? null; // gunakan 1 untuk localhost
 
 
   if ($route === 'users') {
