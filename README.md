@@ -1,11 +1,12 @@
 # ModaPay API
 
-ModaPay API adalah **API** yang digunakan untuk menangani API pada aplikasi ModaPay. API ini dibangun menggunakan **PHP Native**, tanpa framework tambahan, dan akan terus berkembang sesuai kebutuhan. ModaPay API saat ini mencakup fitur untuk **login**, **registrasi**, serta **manajemen data pengguna**.
+ModaPay API adalah **API** yang digunakan untuk menangani API pada aplikasi ModaPay. API ini dibangun menggunakan **PHP Native**, tanpa framework tambahan, dan akan terus berkembang sesuai kebutuhan. ModaPay API saat ini mencakup fitur untuk **login**, **registrasi**, **manajemen data pengguna**, serta **manajemen data product**.
 
 ## Fitur
 
 - **Autentikasi Pengguna**: Pengguna dapat melakukan registrasi dan login.
 - **Manajemen Pengguna**: Menyediakan endpoint untuk mengakses data pengguna.
+- **Manajemen Product**: Menyediakan endpoint untuk mengakses data product.
 - **Respons API dalam format JSON**.
 
 ## Teknologi
@@ -30,7 +31,7 @@ ModaPay API adalah **API** yang digunakan untuk menangani API pada aplikasi Moda
 
 #### **Get All Users** (GET)
 
-- **URL**: `/user`
+- **URL**: `/users`
 
 #### **Create User** (POST)
 
@@ -47,3 +48,33 @@ ModaPay API adalah **API** yang digunakan untuk menangani API pada aplikasi Moda
 #### **Get User By ID** (GET)
 
 - **URL**: `/user/{user_id}`
+
+### 3. **Manajemen Product**
+
+#### **Get All Products** (GET)
+
+- **URL**: `/products`
+
+#### **Create Product** (POST)
+
+- **URL**: `/products`
+
+#### **Update Product** (PUT)
+
+- **URL**: `/product/{product_id}`
+
+#### **Delete Product** (DELETE)
+
+- **URL**: `/product/{product_id}`
+
+#### **Get Product By ID** (GET)
+
+- **URL**: `/product/{product_id}`
+
+## Langkah Installasi
+
+1. Clone repository ini menggunakan perintah `git clone https://github.com/JeaAP/Modapay-API.git`
+2. Buat database dengan nama `modapay` dan hubungi kami untuk isi database
+3. Atur konfigurasi database di file `config/database.php`
+4. Jalankan perintah `php -S localhost:8080` untuk menjalankan server
+5. Buka browser dan akses `http://localhost:8080` untuk melihat hasilnya

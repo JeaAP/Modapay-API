@@ -143,7 +143,7 @@ function get_user_by_id_controller($user_id) {
     ]);
     exit;
   } else {
-    http_response_code(404);
+    http_response_code(500);
     echo json_encode([
       "status" => "fail",
       "message" => "User dengan ID '$user_id' tidak ditemukan"

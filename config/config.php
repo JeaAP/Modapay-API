@@ -5,11 +5,11 @@ if (!defined('APP_NAME'))
 if (!defined('DB_HOST'))
   define('DB_HOST', 'localhost');
 if (!defined('DB_USER'))
-  define('DB_USER', 'root');
+  define('DB_USER', 'bacs5153');
 if (!defined('DB_PASS'))
-  define('DB_PASS', '');
+  define('DB_PASS', 'k1QwiSmarvUx27');
 if (!defined('DB_NAME'))
-  define('DB_NAME', 'modapay');
+  define('DB_NAME', 'bacs5153_attendify');
 
 if (!defined('APP_URL'))
   define('APP_URL', 'http://localhost/modapay-api');
