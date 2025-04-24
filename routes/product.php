@@ -1,10 +1,10 @@
 <?php
 require_once BASE_PATH . "/controllers/productController.php";
 
-function handle_product_routes($route)
+function handle_product_routes($url)
 {
   $method = $_SERVER['REQUEST_METHOD'];
-  $route_parts = explode('/', $route);
+  $route_parts = explode('/', $url);
   $route = $route_parts[4]; // gunakan 0 untuk localhost
   $product_id = $route_parts[5] ?? null; // gunakan 1 untuk localhost
 
