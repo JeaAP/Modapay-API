@@ -11,7 +11,8 @@ $route = $route_parts[3] ?? "null"; // gunakan 0 untuk localhost
 
 if (strpos($route, 'auth') === 0) {
   require_once __DIR__ . "/auth.php"; // Route ke Auth API
-  handle_auth_routes($route);
+  $route_auth = $route_parts[4] ?? "null";
+  handle_auth_routes($route, $route_auth);
   exit;
 } else if (strpos($route, 'users') === 0 || strpos($route, 'user') === 0) {
   require_once __DIR__ . "/user.php"; // Route ke User API

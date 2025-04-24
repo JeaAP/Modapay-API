@@ -1,11 +1,11 @@
 <?php
 require_once BASE_PATH . "/controllers/authController.php";
 
-function handle_auth_routes($route)
+function handle_auth_routes($route, $route_auth)
 {
   $method = $_SERVER['REQUEST_METHOD'];
 
-  switch ($route) {
+  switch ($route. "/" .$route_auth) {
     case 'auth/login':
       if ($method == 'POST') {
         auth_login_controller();
