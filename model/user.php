@@ -2,7 +2,7 @@
 function get_all_users() {
   $conn = getConnection();
 
-  $sql = "SELECT user_id, username, password_hash, role_id, status, is_active FROM users";
+  $sql = "SELECT user_id, username, password_hash, role_id, status, is_active FROM modapay_users";
 
   $result = $conn->query($sql);
   $users = array();
@@ -20,7 +20,7 @@ function create_user($username, $password, $role_id) {
 
   $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-  $sql = "INSERT INTO users (username, password_hash, role_id) VALUES (?, ?, ?)";
+  $sql = "INSERT INTO modapay_users (username, password_hash, role_id) VALUES (?, ?, ?)";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("ssi", $username, $password_hash, $role_id);
 
@@ -37,7 +37,7 @@ function update_user($user_id, $username, $password, $role_id, $status, $is_acti
 
   $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-  $sql = "UPDATE users SET username = ?, password_hash = ?, role_id = ?, status = ?, is_active = ? WHERE user_id = ?";
+  $sql = "UPDATE modapay_users SET username = ?, password_hash = ?, role_id = ?, status = ?, is_active = ? WHERE user_id = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("ssissi", $username, $password_hash, $role_id, $status, $is_active, $user_id);
 
@@ -52,7 +52,7 @@ function update_user($user_id, $username, $password, $role_id, $status, $is_acti
 function delete_user($user_id) {
   $conn = getConnection();
 
-  $sql = "DELETE FROM users WHERE user_id = ?";
+  $sql = "DELETE FROM modapay_users WHERE user_id = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("i", $user_id);
 
@@ -67,7 +67,7 @@ function delete_user($user_id) {
 function get_user_by_id($user_id) {
   $conn = getConnection();
 
-  $sql = "SELECT user_id, username, password_hash, role_id, status, is_active FROM users WHERE user_id = ?";
+  $sql = "SELECT user_id, username, password_hash, role_id, status, is_active FROM modapay_users WHERE user_id = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("i", $user_id);
 

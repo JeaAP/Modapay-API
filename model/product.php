@@ -2,7 +2,7 @@
 function get_all_products() {
   $conn = getConnection();
 
-  $sql = "SELECT product_id, product_name, category, price, stock_quantity, photo_url FROM products";
+  $sql = "SELECT product_id, product_name, category, price, stock_quantity, photo_url FROM modapay_products";
 
   $result = $conn->query($sql);
   $products = array();
@@ -18,7 +18,7 @@ function get_all_products() {
 function get_product_by_id($product_id) {
   $conn = getConnection();
 
-  $sql = "SELECT product_id, product_name, category, price, stock_quantity, photo_url FROM products WHERE product_id = ?";
+  $sql = "SELECT product_id, product_name, category, price, stock_quantity, photo_url FROM modapay_products WHERE product_id = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $product_id);
   $stmt->execute();
@@ -35,7 +35,7 @@ function get_product_by_id($product_id) {
 function create_product($product_name, $category, $price, $stock_quantity, $photo_url) {
   $conn = getConnection();
 
-  $sql = "INSERT INTO products (product_name, category, price, stock_quantity, photo_url) VALUES (?, ?, ?, ?, ?)";
+  $sql = "INSERT INTO modapay_products (product_name, category, price, stock_quantity, photo_url) VALUES (?, ?, ?, ?, ?)";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("ssdis", $product_name, $category, $price, $stock_quantity, $photo_url);
   
@@ -49,7 +49,7 @@ function create_product($product_name, $category, $price, $stock_quantity, $phot
 function update_product($product_id, $product_name, $category, $price, $stock_quantity, $photo_url) {
   $conn = getConnection();
 
-  $sql = "UPDATE products SET product_name = ?, category = ?, price = ?, stock_quantity = ? WHERE product_id = ?";
+  $sql = "UPDATE modapay_products SET product_name = ?, category = ?, price = ?, stock_quantity = ? WHERE product_id = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("ssdiss", $product_name, $category, $price, $stock_quantity, $photo_url, $product_id);
   
@@ -63,7 +63,7 @@ function update_product($product_id, $product_name, $category, $price, $stock_qu
 function delete_product($product_id) {
   $conn = getConnection();
 
-  $sql = "DELETE FROM products WHERE product_id = ?";
+  $sql = "DELETE FROM modapay_products WHERE product_id = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $product_id);
   $result = $stmt->execute(); 

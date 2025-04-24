@@ -3,7 +3,7 @@ function login($username, $password)
 {
   $conn = getConnection();
 
-  $sql = "SELECT user_id, password_hash, role_id FROM users WHERE username = ?";
+  $sql = "SELECT user_id, password_hash, role_id FROM modapay_users WHERE username = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $username);
   $stmt->execute();
@@ -37,7 +37,7 @@ function register($username, $password)
   $conn = getConnection();
 
   // Cek apakah username sudah terdaftar
-  $check = $conn->prepare("SELECT user_id FROM users WHERE username = ?");
+  $check = $conn->prepare("SELECT user_id FROM modapay_users WHERE username = ?");
   $check->bind_param("s", $username);
   $check->execute();
   $check->store_result();
@@ -52,7 +52,7 @@ function register($username, $password)
 
   $password_hash = password_hash($password, PASSWORD_BCRYPT);
 
-  $sql = "INSERT INTO users (username, password_hash) VALUES (?, ?)";
+  $sql = "INSERT INTO modapay_users (username, password_hash) VALUES (?, ?)";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("ss", $username, $password_hash);
 
