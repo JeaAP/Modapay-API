@@ -5,6 +5,8 @@ function handle_product_routes($url)
 {
   $method = $_SERVER['REQUEST_METHOD'];
   $route_parts = explode('/', $url);
+  echo json_encode($route_parts);
+  exit;
   $route = $route_parts[3]; // gunakan 0 untuk localhost
   $product_id = $route_parts[4] ?? null; // gunakan 1 untuk localhost
 
