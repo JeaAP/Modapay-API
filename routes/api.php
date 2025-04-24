@@ -4,6 +4,9 @@ $route = trim(str_replace(BASE_URL_PATH, '', $path), '/');
 
 if (isset($_GET['route'])) {
   $route = $_GET['route'];
+
+  $route_parts = explode('/', $route);
+  $route = $route_parts[4];
 }
 
 if (strpos($route, 'auth') === 0) {

@@ -5,8 +5,8 @@ function handle_product_routes($route)
 {
   $method = $_SERVER['REQUEST_METHOD'];
   $route_parts = explode('/', $route);
-  $route = $route_parts[0];
-  $product_id = $route_parts[1] ?? null;
+  $route = $route_parts[4]; // gunakan 0 untuk localhost
+  $product_id = $route_parts[5] ?? null; // gunakan 1 untuk localhost
 
   if ($route === 'products') {
     if ($method == 'GET') {
