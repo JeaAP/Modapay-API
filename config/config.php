@@ -14,7 +14,7 @@ if (!defined('DB_NAME'))
 if (!defined('APP_URL'))
   define('APP_URL', 'https://backend24.site/Rian/XI/attendify/modapay/');
 if (!defined('BASE_URL_PATH'))
-  define('BASE_URL_PATH', '/modapay-api');
+  define('BASE_URL_PATH', '/modapay');
 
 // if (!defined('DB_HOST'))
 //   define('DB_HOST', 'localhost');
