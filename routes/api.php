@@ -24,7 +24,7 @@ if (strpos($route, 'auth') === 0) {
   handle_product_routes($route);
 } else {
   http_response_code(404);
-  echo json_encode(["debug_route" => $route, "message" => "Route not found"]);
+  echo json_encode(["debug_route" => $route, "message" => "Route not found", "route_parts" => $route_parts, "route_query" => $route_query]);
   exit;
 }
 ?>
