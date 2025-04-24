@@ -4,12 +4,10 @@ $route = trim(str_replace(BASE_URL_PATH, '', $path), '/');
 
 if (isset($_GET['route'])) {
   $route_query = $_GET['route'];
-
-  $route_parts = explode('/', $route_query);
-  $route = $route_parts[6] ?? "null"; // gunakan 0 untuk localhost
-  echo json_encode("count: " . count($route_parts));
-  exit;
 }
+
+$route_parts = explode('/', $route);
+$route = $route_parts[3] ?? "null"; // gunakan 0 untuk localhost
 
 if (strpos($route, 'auth') === 0) {
   require_once __DIR__ . "/auth.php"; // Route ke Auth API
@@ -23,7 +21,6 @@ if (strpos($route, 'auth') === 0) {
   handle_product_routes($route);
 } else {
   http_response_code(404);
-  $route_parts = explode('/', $route);
   echo json_encode(["debug_route" => $route, "count" => count($route_parts), "message" => "Route not found"]);
   exit;
 }
