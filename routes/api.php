@@ -7,6 +7,9 @@ if (isset($_GET['route'])) {
 
   $route_parts = explode('/', $route);
   $route = $route_parts[4] ?? "null"; // gunakan 0 untuk localhost
+  if($route != "products") {
+    echo json_encode(["debug_route" => $route, "message" => "salah route bang"]);
+  }
 }
 
 if (strpos($route, 'auth') === 0) {
