@@ -7,10 +7,8 @@ if (isset($_GET['route'])) {
 
   $route_parts = explode('/', $route_query);
   $route = $route_parts[6] ?? "null"; // gunakan 0 untuk localhost
-  if(count($route_parts)) {
-    echo json_encode("count: " . count($route_parts));
-    exit;
-  }
+  echo json_encode("count: " . count($route_parts));
+  exit;
 }
 
 if (strpos($route, 'auth') === 0) {
