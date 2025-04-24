@@ -6,7 +6,7 @@ if (isset($_GET['route'])) {
   $route_query = $_GET['route'];
 
   $route_parts = explode('/', $route_query);
-  $route = $route_parts[2] ?? "null"; // gunakan 0 untuk localhost
+  $route = $route_parts[3] ?? "null"; // gunakan 0 untuk localhost
 }
 
 if (strpos($route, 'auth') === 0) {
