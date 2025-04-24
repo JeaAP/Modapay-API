@@ -6,10 +6,7 @@ if (isset($_GET['route'])) {
   $route_query = $_GET['route'];
 
   $route_parts = explode('/', $route_query);
-  $route = $route_parts[4] ?? "null"; // gunakan 0 untuk localhost
-  if($route != "products") {
-    echo json_encode(["debug_route" => $route, "message" => "salah route bang", "route_parts" => $route_parts, "route_query" => $route_query]);
-  }
+  $route = $route_parts[0] ?? "null"; // gunakan 0 untuk localhost
 }
 
 if (strpos($route, 'auth') === 0) {
@@ -24,7 +21,7 @@ if (strpos($route, 'auth') === 0) {
   handle_product_routes($route);
 } else {
   http_response_code(404);
-  echo json_encode(["debug_route" => $route, "message" => "Route not found", "route_parts" => $route_parts, "route_query" => $route_query]);
+  echo json_encode(["debug_route" => $route, "message" => "Route not found"]);
   exit;
 }
 ?>
