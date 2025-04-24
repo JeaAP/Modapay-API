@@ -3,12 +3,12 @@ $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $route = trim(str_replace(BASE_URL_PATH, '', $path), '/');
 
 if (isset($_GET['route'])) {
-  $route = $_GET['route'];
+  $route_query = $_GET['route'];
 
-  $route_parts = explode('/', $route);
+  $route_parts = explode('/', $route_query);
   $route = $route_parts[4] ?? "null"; // gunakan 0 untuk localhost
   if($route != "products") {
-    echo json_encode(["debug_route" => $route, "message" => "salah route bang"]);
+    echo json_encode(["debug_route" => $route, "message" => "salah route bang", "route_parts" => $route_parts, "route_query" => $route_query]);
   }
 }
 
