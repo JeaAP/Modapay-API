@@ -8,6 +8,9 @@
   # Routing untuk semua URL dan arahkan ke index.php
   RewriteRule ^(.*)$ index.php [QSA,L]
 
+  # Tangani semua request dan arahkan ke index.php
+  RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]
+
   # Tangani URL seperti /user/{user_id} dan arahkan ke index.php dengan query string
   RewriteRule ^user/([0-9]+)$ user.php?route=user&user_id=$1 [QSA,L]
 
