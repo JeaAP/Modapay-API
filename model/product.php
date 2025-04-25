@@ -84,7 +84,7 @@ function get_product_price($product_id)
 {
   $conn = getConnection();
 
-  $sql = "SELECT price FROM products WHERE product_id = ?";
+  $sql = "SELECT price FROM modapay_products WHERE product_id = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $product_id);
   $stmt->execute();
@@ -95,6 +95,23 @@ function get_product_price($product_id)
     return $row['price'];
   } else {
     return false; // If the product doesn't exist
+  }
+}
+
+function get_product_by_category($category)
+{
+  $conn = getConnection();
+
+  $sql = "SELECT product_id, product_name, category, price, stock_quantity, photo_url FROM modapay_products WHERE category = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $category);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows > 0) {
+    return $result->fetch_all(MYSQLI_ASSOC);
+  } else {
+    return null;
   }
 }
 ?>

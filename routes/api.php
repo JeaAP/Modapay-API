@@ -7,33 +7,28 @@ if (isset($_GET['route'])) {
 }
 
 $route_parts = explode('/', $route);
-$route = $route_parts[0] ?? "null"; // gunakan 0 untuk localhost
+$route = $route_parts[0] ?? null; // gunakan 0 untuk localhost ||| 3
+$second_route = $route_parts[1] ?? null; // gunakan 1 untuk localhost ||| 4
 
 if (strpos($route, 'auth') === 0) {
   require_once __DIR__ . "/auth.php"; // Route ke Auth API
-  $route_auth = $route_parts[4] ?? "null"; // gunakan 1 untuk localhost
-  handle_auth_routes($route, $route_auth);
+  handle_auth_routes($route, $second_route);
   exit;
 } else if (strpos($route, 'users') === 0 || strpos($route, 'user') === 0) {
   require_once __DIR__ . "/user.php"; // Route ke User API
-  $route_user = $route_parts[1] ?? "null"; // gunakan 1 untuk localhost
-  handle_user_routes($route, $route_user);
+  handle_user_routes($route, $second_route);
 } else if (strpos($route, 'products') === 0 || strpos($route, 'product') === 0) {
   require_once __DIR__ . "/product.php"; // Route ke Product API
-  $route_product = $route_parts[1] ?? "null"; // gunakan 1 untuk localhost
-  handle_product_routes($route, $route_product);
+  handle_product_routes($route, $second_route);
 } else if (strpos($route, 'discounts') === 0 || strpos($route, 'discount') === 0) {
   require_once __DIR__ . "/discount.php"; // Route ke Discount API
-  $route_discount = $route_parts[1] ?? "null"; // gunakan 1 untuk localhost
-  handle_discount_routes($route, $route_discount);
+  handle_discount_routes($route, $second_route);
 } else if (strpos($route, 'transactions') === 0 || strpos($route, 'transaction') === 0) {
   require_once __DIR__ . "/transaction.php"; // Route ke Transaction API
-  $route_transaction = $route_parts[1] ?? "null"; // gunakan 1 untuk localhost
-  handle_transaction_routes($route, $route_transaction);
+  handle_transaction_routes($route, $second_route);
 } else if (strpos($route, 'restocks') === 0 || strpos($route, 'restock') === 0) {
   require_once __DIR__ . "/restock.php"; // Route ke Restock API
-  $route_restock = $route_parts[1] ?? "null"; // gunakan 1 untuk localhost
-  handle_restock_routes($route, $route_restock);
+  handle_restock_routes($route, $second_route);
 }
 else {
   http_response_code(404);

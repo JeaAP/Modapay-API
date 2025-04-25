@@ -10,14 +10,8 @@ function handle_restock_routes($url, $route_restock)
 
   if ($route === 'restocks') {
     if ($method == 'GET') {
-      if ($route_restock == 'accepted') {
-        get_restock_by_status_controller('accepted');
-      } elseif ($route_restock == 'pending') {
-        get_restock_by_status_controller('pending');
-      } elseif ($route_restock == 'rejected') {
-        get_restock_by_status_controller('rejected');
-      } else {
-        get_all_restocks_controller();
+      if ($route_restock) {
+        get_restock_by_status_controller($route_restock);
       }
       get_all_restocks_controller();
     } elseif ($method == 'POST') {

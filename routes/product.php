@@ -1,15 +1,19 @@
 <?php
 require_once BASE_PATH . "/controllers/productController.php";
 
-function handle_product_routes($url, $route_auth)
+function handle_product_routes($url, $route_product)
 {
   $method = $_SERVER['REQUEST_METHOD'];
   $route_parts = explode('/', $url);
   $route = $route_parts[0]; // gunakan 0 untuk localhost
-  $product_id = $route_auth ?? null;
+  $category = $route_product ?? null;
+  $product_id = $route_product ?? null;
 
   if ($route === 'products') {
     if ($method == 'GET') {
+      if ($category) {
+        get_product_by_category_controller($category);
+      }
       get_all_products_controller();
     } elseif ($method == 'POST') {
       create_product_controller();

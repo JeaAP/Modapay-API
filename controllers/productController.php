@@ -151,4 +151,24 @@ function get_product_by_id_controller($product_id)
     exit;
   }
 }
+
+function get_product_by_category_controller($category)
+{
+  $products = get_product_by_category($category);
+  if ($products) {
+    http_response_code(200);
+    echo json_encode([
+      "status" => "success",
+      "data" => $products
+    ]);
+    exit;
+  } else {
+    http_response_code(404);
+    echo json_encode([
+      "status" => "fail",
+      "message" => "Product tidak ditemukan"
+    ]);
+    exit;
+  }
+}
 ?>
