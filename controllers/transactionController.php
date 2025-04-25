@@ -17,7 +17,7 @@ function create_transaction_controller()
 
   $user_id = empty($data['user_id']) ? NULL : $data['user_id'];
   $payment_method = empty($data['payment_method']) ? "cash" : $data['payment_method'];
-  $items = empty($data['items']) ? NULL : $data['items'];
+  $items = $data['items'];
 
   // Step 1: Create the transaction
   $transaction_id = create_transaction($user_id, $payment_method, $items);
@@ -94,7 +94,7 @@ function update_transaction_controller($transaction_id)
 {
   $data = json_decode(file_get_contents("php://input"), true);
 
-  if (!isset($data['user_id']) || !isset($data['total_amount']) || !isset($data['payment_method'])) {
+  if (!isset($data['user_id']) || !isset($data['payment_method'])) {
     http_response_code(400);
     echo json_encode([
       "status" => "fail",
@@ -104,11 +104,9 @@ function update_transaction_controller($transaction_id)
   }
 
   $user_id = $data['user_id'];
-  $total_amount = $data['total_amount'];
   $payment_method = $data['payment_method'];
-  $transaction_date = date('Y-m-d H:i:s');
 
-  if (update_transaction($transaction_id, $user_id, $total_amount, $payment_method, $transaction_date)) {
+  if (update_transaction($transaction_id, $user_id, $payment_method)) {
     http_response_code(200);
     echo json_encode([
       "status" => "success",

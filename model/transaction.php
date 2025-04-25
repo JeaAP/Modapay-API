@@ -29,7 +29,10 @@ function create_transaction($user_id, $payment_method, $items)
   if ($stmt->execute()) {
     return $transaction_id;
   } else {
-    return false;
+    return [
+      "status" => "fail",
+      "message" => "Gagal membuat transaksi"
+    ];
   }
 }
 
@@ -95,15 +98,15 @@ function get_transaction_by_id($transaction_id)
   }
 }
 
-function update_transaction($transaction_id, $user_id, $total_amount, $payment_method, $transaction_date)
+function update_transaction($transaction_id, $user_id, $payment_method)
 {
   $conn = getConnection();
 
-  $sql = "UPDATE modapay_transactions SET user_id = ?, total_amount = ?, payment_method = ?, transaction_date = ? 
+  $sql = "UPDATE modapay_transactions SET user_id = ?, payment_method = ?
             WHERE transaction_id = ?";
 
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("idsss", $user_id, $total_amount, $payment_method, $transaction_date, $transaction_id);
+  $stmt->bind_param("iss", $user_id,  $payment_method, $transaction_id);
 
   return $stmt->execute();
 }
