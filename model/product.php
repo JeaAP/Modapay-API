@@ -79,4 +79,22 @@ function delete_product($product_id)
     return false;
   }
 }
+
+function get_product_price($product_id)
+{
+  $conn = getConnection();
+
+  $sql = "SELECT price FROM products WHERE product_id = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $product_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    return $row['price'];
+  } else {
+    return false; // If the product doesn't exist
+  }
+}
 ?>

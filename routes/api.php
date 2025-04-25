@@ -26,7 +26,16 @@ if (strpos($route, 'auth') === 0) {
   require_once __DIR__ . "/discount.php"; // Route ke Discount API
   $route_discount = $route_parts[1] ?? "null"; // gunakan 1 untuk localhost
   handle_discount_routes($route, $route_discount);
-} else {
+} else if (strpos($route, 'transactions') === 0 || strpos($route, 'transaction') === 0) {
+  require_once __DIR__ . "/transaction.php"; // Route ke Transaction API
+  $route_transaction = $route_parts[1] ?? "null"; // gunakan 1 untuk localhost
+  handle_transaction_routes($route, $route_transaction);
+} else if (strpos($route, 'restocks') === 0 || strpos($route, 'restock') === 0) {
+  require_once __DIR__ . "/restock.php"; // Route ke Restock API
+  $route_restock = $route_parts[1] ?? "null"; // gunakan 1 untuk localhost
+  handle_restock_routes($route, $route_restock);
+}
+else {
   http_response_code(404);
   echo json_encode(["debug_route" => $route, "count" => count($route_parts), "message" => "Route not found"]);
   exit;
