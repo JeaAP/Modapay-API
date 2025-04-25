@@ -34,13 +34,14 @@ function create_product_controller()
     exit;
   }
 
-  $product_name = empty($product_name) ? NULL : $product_name;
-  $category = empty($category) ? NULL : $category;
-  $price = empty($price) ? NULL : $price;
-  $stock_quantity = empty($stock_quantity) ? NULL : $stock_quantity;
-  $photo_url = empty($photo_url) ? NULL : $photo_url;
+  $product_name = empty($data['product_name']) ? NULL : $data['product_name'];
+  $category = empty($data['category']) ? NULL : $data['category'];
+  $description = empty($data['description']) ? NULL : $data['description'];
+  $price = empty($data['price']) ? NULL : $data['price'];
+  $stock_quantity = empty($data['stock_quantity']) ? 0 : $data['stock_quantity'];
+  $photo_url = empty($data['photo_url']) ? NULL : $data['photo_url'];
 
-  if (create_product($product_name, $category, $price, $stock_quantity, $photo_url)) {
+  if (create_product($product_name, $category, $description, $price, $stock_quantity, $photo_url)) {
     http_response_code(201);
     echo json_encode([
       "status" => "success",
@@ -79,13 +80,14 @@ function update_product_controller($product_id)
     exit;
   }
 
-  $product_name = empty($product_name) ? NULL : $product_name;
-  $category = empty($category) ? NULL : $category;
-  $price = empty($price) ? NULL : $price;
-  $stock_quantity = empty($stock_quantity) ? NULL : $stock_quantity;
-  $photo_url = empty($photo_url) ? NULL : $photo_url;
+  $product_name = empty($data['product_name']) ? NULL : $data['product_name'];
+  $category = empty($data['category']) ? NULL : $data['category'];
+  $description = empty($data['description']) ? NULL : $data['description'];
+  $price = empty($data['price']) ? NULL : $data['price'];
+  $stock_quantity = empty($data['stock_quantity']) ? 0 : $data['stock_quantity'];
+  $photo_url = empty($data['photo_url']) ? NULL : $data['photo_url'];
 
-  if (update_product($product_id, $product_name, $category, $price, $stock_quantity, $photo_url)) {
+  if (update_product($product_id, $product_name, $category, $description, $price, $stock_quantity, $photo_url)) {
     http_response_code(200);
     echo json_encode([
       "status" => "success",

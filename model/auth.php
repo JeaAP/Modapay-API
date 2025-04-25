@@ -57,6 +57,27 @@ function register($username, $password)
   $stmt->bind_param("ss", $username, $password_hash);
 
   if ($stmt->execute()) {
+    $user_id = $conn->insert_id;
+    return [
+      "success" => true,
+      "user_id" => $user_id
+    ];
+  } else {
+    return [
+      "success" => false,
+      "message" => "Gagal membuat akun"
+    ];
+  }
+}
+
+function kasir_personal_data($user_id, $gender, $tahun_masuk, $kelas, $phone_number)
+{
+  $conn = getConnection();
+
+  $sql = "INSERT INTO kasir_personal_data (user_id, gender, tahun_masuk, kelas, phone_number) VALUES (?, ?, ?, ?, ?)";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("isiss", $user_id, $gender, $tahun_masuk, $kelas, $phone_number);
+  if ($stmt->execute()) {
     return true;
   } else {
     return false;
