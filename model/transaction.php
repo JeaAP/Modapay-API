@@ -6,25 +6,16 @@ function generate_uuid()
   return bin2hex(random_bytes(16));  // Generate a random UUID (char(36) compatible format)
 }
 
-function create_transaction($user_id, $payment_method, $items)
+function create_transaction($user_id, $payment_method, $total_product, $total_amount)
 {
   $conn = getConnection();
 
   $transaction_id = generate_uuid();
 
-  $total_amount = 0;
-  foreach ($items as $item) {
-    $price = get_product_price($item['product_id']);
-    if ($price === false) {
-      return false;
-    }
-    $total_amount += $price * $item['quantity'];
-  }
-
-  $sql = "INSERT INTO modapay_transactions (transaction_id, user_id, total_amount, payment_method) 
-            VALUES (?, ?, ?, ?)";
+  $sql = "INSERT INTO modapay_transactions (transaction_id, user_id, total_product, total_amount, payment_method) 
+            VALUES (?, ?, ?, ?, ?)";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sids",  $transaction_id, $user_id, $total_amount, $payment_method);
+  $stmt->bind_param("siids",  $transaction_id, $user_id, $total_product, $total_amount, $payment_method);
 
   if ($stmt->execute()) {
     return $transaction_id;
@@ -119,5 +110,20 @@ function delete_transaction($transaction_id)
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $transaction_id);
   return $stmt->execute();
+}
+
+function get_detail_transaction($transaction_id) {
+  $conn = getConnection();
+  $sql = "SELECT * FROM modapay_transaction_items WHERE transaction_id = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $transaction_id);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  if ($result->num_rows > 0) {
+    return $result->fetch_all(MYSQLI_ASSOC);
+  } else {
+    return null;
+  }
 }
 ?>

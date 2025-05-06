@@ -18,7 +18,6 @@ function auth_login_controller()
   }
 
   $result = login($username, $password);
-
   if ($result && isset($result['success'])) {
     http_response_code(200);
     echo json_encode([
@@ -68,9 +67,7 @@ function auth_register_controller()
     echo json_encode([
       "status" => "success",
       "message" => "Register berhasil",
-      "data" => [
-        "user_id" => $result["user_id"]
-      ]
+      "user_id" => $result["user_id"]
     ]);
     exit;
   } else {

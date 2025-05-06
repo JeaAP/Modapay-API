@@ -19,7 +19,7 @@ if (strpos($route, 'auth') === 0) {
 } else if (strpos($route, 'discounts') === 0 || strpos($route, 'discount') === 0) {
   require_once __DIR__ . "/discount.php"; // Route ke Discount API
   handle_discount_routes($route, $second_route);
-} else if (strpos($route, 'transactions') === 0 || strpos($route, 'transaction') === 0) {
+} else if (strpos($route, 'transactions') === 0 || strpos($route, 'transaction') === 0 || strpos($route, 'detail') === 0) {
   require_once __DIR__ . "/transaction.php"; // Route ke Transaction API
   handle_transaction_routes($route, $second_route);
 } else if (strpos($route, 'restocks') === 0 || strpos($route, 'restock') === 0) {

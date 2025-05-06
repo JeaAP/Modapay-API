@@ -38,6 +38,21 @@ function handle_transaction_routes($url, $route_auth)
       http_response_code(400);
       echo json_encode(["debug_route" => $route, "message" => "Transaction ID tidak ditemukan"]);
     }
+  } else if ($route === 'detail') {
+    if ($transaction_id) {
+      switch ($method) {
+        case 'GET':
+          get_detail_transaksction_controller($transaction_id);
+          break;
+        default:
+          http_response_code(405);
+          echo json_encode(["message" => "Metode tidak diizinkan"]);
+          break;
+      }
+    } else {
+      http_response_code(400);
+      echo json_encode(["debug_route" => $route, "message" => "Transaction ID tidak ditemukan"]);
+    }
   }
 }
 ?>

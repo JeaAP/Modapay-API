@@ -23,7 +23,7 @@ function handle_auth_routes($route, $route_auth)
       }
       break;
     case 'auth/personal-data':
-      if ($method == 'POST') {
+      if ($method == 'PUT') {
         kasir_personal_data_controller();
       } else {
         http_response_code(405);

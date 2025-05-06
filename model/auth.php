@@ -6,7 +6,11 @@ function login($username, $password)
   $sql = "SELECT user_id, password_hash, role_id FROM modapay_users WHERE username = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $username);
-  $stmt->execute();
+  $result = $stmt->execute();
+  
+  if(!$result) {
+    return false;
+  }
 
   $stmt->store_result();
   if ($stmt->num_rows === 1) {
@@ -27,7 +31,10 @@ function login($username, $password)
       ];
     }
   } else {
-    return false;
+    return [
+      "success" => false,
+      "message" => "Username tidak ditemukan"
+    ];
   }
 }
 

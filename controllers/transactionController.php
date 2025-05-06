@@ -6,7 +6,7 @@ function create_transaction_controller()
 {
   $data = json_decode(file_get_contents("php://input"), true);
 
-  if (!isset($data['user_id']) || !isset($data['payment_method']) || !isset($data['items'])) {
+  if (!isset($data['user_id']) || !isset($data['payment_method']) || !isset($data['total_amount']) || !isset($data['items'])) {
     http_response_code(400);
     echo json_encode([
       "status" => "fail",
@@ -17,10 +17,16 @@ function create_transaction_controller()
 
   $user_id = empty($data['user_id']) ? NULL : $data['user_id'];
   $payment_method = empty($data['payment_method']) ? "cash" : $data['payment_method'];
+  $total_amount = empty($data['total_amount']) ? NULL : $data['total_amount'];
   $items = $data['items'];
 
+  $total_product = 0;
+  foreach ($items as $item) {
+    $total_product += $item['quantity'];
+  }
+
   // Step 1: Create the transaction
-  $transaction_id = create_transaction($user_id, $payment_method, $items);
+  $transaction_id = create_transaction($user_id, $payment_method, $total_product, $total_amount);
 
   if ($transaction_id === false) {
     http_response_code(500);
@@ -137,6 +143,26 @@ function delete_transaction_controller($transaction_id)
     echo json_encode([
       "status" => "fail",
       "message" => "Gagal menghapus transaksi"
+    ]);
+    exit;
+  }
+}
+
+function get_detail_transaksction_controller($transaction_id)
+{
+  $transaction = get_detail_transaction($transaction_id);
+  if ($transaction) {
+    http_response_code(200);
+    echo json_encode([
+      "status" => "success",
+      "data" => $transaction
+    ]);
+    exit;
+  } else {
+    http_response_code(404);
+    echo json_encode([
+      "status" => "fail",
+      "message" => "Transaksi tidak ditemukan"
     ]);
     exit;
   }
