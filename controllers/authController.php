@@ -102,7 +102,7 @@ function kasir_personal_data_controller()
     exit;
   }
 
-  $result = kasir_personal_data($user_id, $gender, $tahun_masuk, $kelas, $phone_number);
+  $result = personal_data($user_id, $gender, $tahun_masuk, $kelas, $phone_number);
 
   if ($result) {
     http_response_code(201);

@@ -70,13 +70,14 @@ function register($username, $password)
   }
 }
 
-function kasir_personal_data($user_id, $gender, $tahun_masuk, $kelas, $phone_number)
+function personal_data($user_id, $gender, $tahun_masuk, $kelas, $phone_number)
 {
   $conn = getConnection();
 
-  $sql = "INSERT INTO kasir_personal_data (user_id, gender, tahun_masuk, kelas, phone_number) VALUES (?, ?, ?, ?, ?)";
+  $sql = "UPDATE modapay_users SET gender = ?, tahun_masuk = ?, kelas = ?, phone_number = ? WHERE user_id = ?";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("isiss", $user_id, $gender, $tahun_masuk, $kelas, $phone_number);
+  $stmt->bind_param("ssssi", $gender, $tahun_masuk, $kelas, $phone_number, $user_id);
+
   if ($stmt->execute()) {
     return true;
   } else {

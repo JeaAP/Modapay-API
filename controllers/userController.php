@@ -97,6 +97,7 @@ function create_user_controller()
   $username = empty($data['username']) ? null : $data['username'];
   $password = empty($data['password']) ? null : $data['password'];
   $gender = empty($data['gender']) ? null : $data['gender'];
+  $phone_number = empty($data['phone_number']) ? null : $data['phone_number'];
   $tahun_masuk = empty($data['tahun_masuk']) ? null : $data['tahun_masuk'];
   $kelas = empty($data['kelas']) ? null : $data['kelas'];
   $role_id = empty($data['role_id']) ? 3 : $data['role_id'];
@@ -107,7 +108,7 @@ function create_user_controller()
     $status = "accepted";
   }
 
-  if (create_user($username, $password, $gender, $tahun_masuk, $kelas, $role_id, $status, $is_active)) {
+  if (create_user($username, $password, $gender,  $phone_number,$tahun_masuk, $kelas, $role_id, $status, $is_active)) {
     http_response_code(201);
     echo json_encode([
       "status" => "success",
@@ -149,13 +150,14 @@ function update_user_controller($user_id)
   $username = empty($data['username']) ? null : $data['username'];
   $password = empty($data['password']) ? null : $data['password'];
   $gender = empty($data['gender']) ? null : $data['gender'];
+  $phone_number = empty($data['phone_number']) ? null : $data['phone_number'];
   $tahun_masuk = empty($data['tahun_masuk']) ? null : $data['tahun_masuk'];
   $kelas = empty($data['kelas']) ? null : $data['kelas'];
   $role_id = empty($data['role_id']) ? 3 : $data['role_id'];
   $status = empty($data['status']) ? null : $data['status'];
   $is_active = empty($data['is_active']) ? null : $data['is_active'];
 
-  if (update_user($user_id, $username, $password, $gender, $tahun_masuk, $kelas, $role_id, $status, $is_active)) {
+  if (update_user($user_id, $username, $password, $gender,  $phone_number, $tahun_masuk, $kelas, $role_id, $status, $is_active)) {
     http_response_code(200);
     echo json_encode([
       "status" => "success",

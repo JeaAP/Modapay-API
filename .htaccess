@@ -5,15 +5,9 @@
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
 
+  # Routing untuk semua URL di bawah /Rian/XI/attendify/modapay/ ke index.php dalam folder tersebut
+  RewriteRule ^Rian/XI/attendify/modapay/(.*)$ Rian/XI/attendify/modapay/index.php [QSA,L]
+
   # Routing untuk semua URL dan arahkan ke index.php
   RewriteRule ^(.*)$ index.php [QSA,L]
-
-  # Tangani semua request dan arahkan ke index.php
-  RewriteRule ^(.*)$ index.php?route=$1 [QSA,L]
-
-  # Tangani URL seperti /user/{user_id} dan arahkan ke index.php dengan query string
-  RewriteRule ^user/([0-9]+)$ user.php?route=user&user_id=$1 [QSA,L]
-
-  # Tangani URL untuk /users dan arahkan ke index.php dengan query string
-  RewriteRule ^users$ index.php?route=users [QSA,L]
 </IfModule>

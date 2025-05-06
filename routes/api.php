@@ -2,10 +2,6 @@
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $route = trim(str_replace(BASE_URL_PATH, '', $path), '/');
 
-if (isset($_GET['route'])) {
-  $route_query = $_GET['route'];
-}
-
 $route_parts = explode('/', $route);
 $route = $route_parts[0] ?? null; // gunakan 0 untuk localhost ||| 3
 $second_route = $route_parts[1] ?? null; // gunakan 1 untuk localhost ||| 4
