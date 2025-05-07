@@ -5,9 +5,6 @@ function auth_login_controller()
 {
   $data = json_decode(file_get_contents("php://input"), true);
 
-  $username = $data['username'];
-  $password = $data['password'];
-
   if (!isset($data['username']) || !isset($data['password'])) {
     http_response_code(400);
     echo json_encode([
@@ -17,8 +14,11 @@ function auth_login_controller()
     exit;
   }
 
+  $username = $data['username'];
+  $password = $data['password'];
   $result = login($username, $password);
-  if ($result && isset($result['success'])) {
+
+  if ($result && isset($result['success']) && $result['success']) {
     http_response_code(200);
     echo json_encode([
       "status" => "success",
@@ -26,7 +26,14 @@ function auth_login_controller()
       "data" => [
         "user_id" => $result['user_id'],
         "username" => $result['username'],
+        "phone_number" => $result['phone_number'],
+        "gender" => $result['gender'],
+        "tahun_masuk" => $result['tahun_masuk'],
+        "kelas" => $result['kelas'],
         "role_id" => $result['role_id'],
+        "created_at" => $result['created_at'],
+        "status" => $result['status'],
+        "is_active" => $result['is_active']
       ]
     ]);
     exit;
@@ -34,11 +41,7 @@ function auth_login_controller()
     http_response_code(401);
     echo json_encode([
       "status" => "fail",
-      "message" => $result['message'] ?? "Login gagal",
-      "data" => [
-        "username" => $username,
-        "password" => $password
-      ]
+      "message" => $result['message'] ?? "Login gagal"
     ]);
     exit;
   }
