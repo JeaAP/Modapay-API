@@ -47,7 +47,7 @@ function login($username, $password)
       "message" => "Username tidak ditemukan"
     ];
   }
-}363
+}
 
 function register($username, $password)
 {
