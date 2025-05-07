@@ -3,26 +3,37 @@ function login($username, $password)
 {
   $conn = getConnection();
 
-  $sql = "SELECT user_id, password_hash, role_id FROM modapay_users WHERE username = ?";
+  $sql = "SELECT * FROM modapay_users WHERE username = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $username);
   $result = $stmt->execute();
-  
-  if(!$result) {
+
+  if (!$result) {
     return false;
   }
 
   $stmt->store_result();
   if ($stmt->num_rows === 1) {
-    $stmt->bind_result($user_id, $password_hash, $role_id);
+    $stmt->bind_result(
+      $user_id, $username_db, $password_hash, $phone_number,
+      $gender, $tahun_masuk, $kelas, $role_id,
+      $created_at, $status, $is_active
+    );
     $stmt->fetch();
 
     if (password_verify($password, $password_hash)) {
       return [
         "success" => true,
         "user_id" => $user_id,
-        "username" => $username,
-        "role_id" => $role_id
+        "username" => $username_db,
+        "phone_number" => $phone_number,
+        "gender" => $gender,
+        "tahun_masuk" => $tahun_masuk,
+        "kelas" => $kelas,
+        "role_id" => $role_id,
+        "created_at" => $created_at,
+        "status" => $status,
+        "is_active" => $is_active
       ];
     } else {
       return [
@@ -36,8 +47,7 @@ function login($username, $password)
       "message" => "Username tidak ditemukan"
     ];
   }
-}
-
+}363
 
 function register($username, $password)
 {
