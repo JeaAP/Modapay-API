@@ -70,7 +70,9 @@ function auth_register_controller()
     echo json_encode([
       "status" => "success",
       "message" => "Register berhasil",
-      "user_id" => $result["user_id"]
+      "data" => [
+        "user_id" => $result["user_id"]
+      ]
     ]);
     exit;
   } else {

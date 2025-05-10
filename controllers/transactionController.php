@@ -17,7 +17,6 @@ function create_transaction_controller()
 
   $user_id = empty($data['user_id']) ? NULL : $data['user_id'];
   $payment_method = empty($data['payment_method']) ? "cash" : $data['payment_method'];
-  $total_amount = empty($data['total_amount']) ? NULL : $data['total_amount'];
   $items = $data['items'];
 
   $total_product = 0;
@@ -26,7 +25,7 @@ function create_transaction_controller()
   }
 
   // Step 1: Create the transaction
-  $transaction_id = create_transaction($user_id, $payment_method, $total_product, $total_amount);
+  $transaction_id = create_transaction($user_id, $payment_method, $total_product);
 
   if ($transaction_id === false) {
     http_response_code(500);
@@ -43,7 +42,9 @@ function create_transaction_controller()
     echo json_encode([
       "status" => "success",
       "message" => "Transaksi berhasil dibuat",
-      "transaction_id" => $transaction_id
+      "data" => [
+        "transaction_id" => $transaction_id,
+      ]
     ]);
     exit;
   } else {
@@ -63,6 +64,7 @@ function get_all_transactions_controller()
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Berhasil mendapatkan transaksi",
       "data" => $transactions
     ]);
     exit;
@@ -83,6 +85,7 @@ function get_transaction_by_id_controller($transaction_id)
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Berhasil mendapatkan transaksi",
       "data" => $transaction
     ]);
     exit;
@@ -155,7 +158,29 @@ function get_detail_transaksction_controller($transaction_id)
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Berhasil mendapatkan detail transaksi",
       "data" => $transaction
+    ]);
+    exit;
+  } else {
+    http_response_code(404);
+    echo json_encode([
+      "status" => "fail",
+      "message" => "Transaksi tidak ditemukan"
+    ]);
+    exit;
+  }
+}
+
+function get_all_detail_transaksction_controller() 
+{
+  $transactions = get_all_detail_transaction();
+  if ($transactions) {
+    http_response_code(200);
+    echo json_encode([
+      "status" => "success",
+      "message" => "Berhasil mendapatkan semua detail transaksi",
+      "data" => $transactions
     ]);
     exit;
   } else {

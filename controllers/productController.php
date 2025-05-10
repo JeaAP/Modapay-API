@@ -8,6 +8,7 @@ function get_all_products_controller()
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Berhasil mendapatkan semua produk",
       "data" => $products
     ]);
     exit;
@@ -139,6 +140,7 @@ function get_product_by_id_controller($product_id)
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Berhasil mendapatkan produk",
       "data" => $product
     ]);
     exit;
@@ -159,6 +161,7 @@ function get_product_by_category_controller($category)
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Berhasil mendapatkan produk",
       "data" => $products
     ]);
     exit;

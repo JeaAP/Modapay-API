@@ -39,7 +39,9 @@ function create_restock_controller()
     echo json_encode([
       "status" => "success",
       "message" => "Restock berhasil dibuat",
-      "restock_id" => $restock_id
+      "data" => [
+        "restock_id" => $restock_id,
+      ]
     ]);
     exit;
   } else {
@@ -59,6 +61,7 @@ function get_all_restocks_controller()
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Berhasil mendapatkan restock",
       "data" => $restocks
     ]);
     exit;
@@ -79,6 +82,7 @@ function get_restock_by_id_controller($restock_id)
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Berhasil mendapatkan restock",
       "data" => $restock
     ]);
     exit;
@@ -150,6 +154,7 @@ function get_restock_by_status_controller($status)
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Berhasil mendapatkan restock",
       "data" => $restocks
     ]);
     exit;

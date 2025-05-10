@@ -143,6 +143,7 @@ function get_discount_by_id_controller($discount_id)
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Discount ditemukan",
       "data" => $discount
     ]);
     exit;
