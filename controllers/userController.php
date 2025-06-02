@@ -8,6 +8,7 @@ function get_all_users_controller()
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Users berhasil ditemukan",
       "data" => $users
     ]);
     exit;
@@ -28,6 +29,7 @@ function get_pemilik_controller()
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Owner users found",
       "data" => $users
     ]);
     exit;
@@ -48,6 +50,7 @@ function get_admin_controller()
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Admin users found",
       "data" => $users
     ]);
     exit;
@@ -68,6 +71,7 @@ function get_kasir_controller()
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Kasir users found",
       "data" => $users
     ]);
     exit;

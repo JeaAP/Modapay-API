@@ -31,4 +31,4 @@ else {
   echo json_encode(["debug_route" => $route, "count" => count($route_parts), "message" => "Route not found"]);
   exit;
 }
-?>
+?>-

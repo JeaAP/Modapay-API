@@ -6,16 +6,16 @@ function generate_uuid()
   return bin2hex(random_bytes(16));  // Generate a random UUID (char(36) compatible format)
 }
 
-function create_transaction($user_id, $payment_method, $total_product, $total_amount)
+function create_transaction($user_id, $payment_method, $total_amount)
 {
   $conn = getConnection();
 
   $transaction_id = generate_uuid();
 
-  $sql = "INSERT INTO modapay_transactions (transaction_id, user_id, total_product, total_amount, payment_method) 
-            VALUES (?, ?, ?, ?, ?)";
+  $sql = "INSERT INTO modapay_transactions (transaction_id, user_id, total_amount, payment_method) 
+            VALUES (?, ?, ?, ?)";
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("siids",  $transaction_id, $user_id, $total_product, $total_amount, $payment_method);
+  $stmt->bind_param("sids", $transaction_id, $user_id, $total_amount, $payment_method);
 
   if ($stmt->execute()) {
     return $transaction_id;
@@ -97,7 +97,7 @@ function update_transaction($transaction_id, $user_id, $payment_method)
             WHERE transaction_id = ?";
 
   $stmt = $conn->prepare($sql);
-  $stmt->bind_param("iss", $user_id,  $payment_method, $transaction_id);
+  $stmt->bind_param("iss", $user_id, $payment_method, $transaction_id);
 
   return $stmt->execute();
 }
@@ -112,18 +112,36 @@ function delete_transaction($transaction_id)
   return $stmt->execute();
 }
 
-function get_detail_transaction($transaction_id) {
+function get_detail_transaction($transaction_id)
+{
   $conn = getConnection();
   $sql = "SELECT * FROM modapay_transaction_items WHERE transaction_id = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $transaction_id);
   $stmt->execute();
   $result = $stmt->get_result();
-
+  $transaction_items = [];
   if ($result->num_rows > 0) {
-    return $result->fetch_all(MYSQLI_ASSOC);
-  } else {
-    return null;
+    while ($row = $result->fetch_assoc()) {
+      $transaction_items[] = $row;
+    }
   }
+  $conn->close();
+  return $transaction_items;
+}
+
+function get_all_detail_transaction()
+{
+  $conn = getConnection();
+  $sql = "SELECT * FROM modapay_transaction_items";
+  $result = $conn->query($sql);
+  $transaction_items = [];
+  if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+      $transaction_items[] = $row;
+    }
+  }
+  $conn->close();
+  return $transaction_items;
 }
 ?>

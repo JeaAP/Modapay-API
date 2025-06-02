@@ -8,6 +8,7 @@ function get_all_discounts_controller()
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "Discount ditemukan",
       "data" => $discounts
     ]);
     exit;
