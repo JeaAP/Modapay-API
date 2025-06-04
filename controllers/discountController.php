@@ -12,6 +12,13 @@ function get_all_discounts_controller()
       "data" => $discounts
     ]);
     exit;
+  } else if (empty($discounts)) {
+    http_response_code(404);
+    echo json_encode([
+      "status" => "fail",
+      "message" => "Tidak ada discount"
+    ]);
+    exit;
   } else {
     http_response_code(404);
     echo json_encode([

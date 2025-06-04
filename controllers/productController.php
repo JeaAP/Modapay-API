@@ -12,6 +12,13 @@ function get_all_products_controller()
       "data" => $products
     ]);
     exit;
+  } else if (empty($products)) {
+    http_response_code(404);
+    echo json_encode([
+      "status" => "fail",
+      "message" => "Tidak ada produk"
+    ]);
+    exit;
   } else {
     http_response_code(404);
     echo json_encode([
