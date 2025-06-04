@@ -213,6 +213,7 @@ function get_user_by_id_controller($user_id)
     http_response_code(200);
     echo json_encode([
       "status" => "success",
+      "message" => "User found",
       "data" => $user
     ]);
     exit;
