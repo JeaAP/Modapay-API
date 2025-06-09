@@ -14,11 +14,11 @@ function create_restock($store_id, $user_id, $status, $notes, $items)
 
   $total_amount = 0;
   foreach ($items as $item) {
-    $product_price = get_product_price($item['product_id']);
+    $product_price = get_product_by_id($item['product_id']);
     if ($product_price === false) {
       return false;
     }
-    $total_amount += $product_price * $item['quantity'];
+    $total_amount += $product_price['price'] * $item['quantity'];
   }
 
   $sql = "INSERT INTO modapay_restock (restock_id, store_id, user_id, total_amount, status, notes)
@@ -43,12 +43,12 @@ function create_restock_items($restock_id, $items)
   $stmt = $conn->prepare($sql);
 
   foreach ($items as $item) {
-    $product_price = get_product_price($item['product_id']);
+    $product_price = get_product_by_id($item['product_id']);
 
     if ($product_price === false) {
       return false;
     }
-    $product_price = $product_price * $item['quantity'];
+    $product_price = $product_price['price'] * $item['quantity'];
 
     $stmt->bind_param("ssii", $restock_id, $item['product_id'], $item['quantity'], $product_price);
     if (!$stmt->execute()) {
@@ -109,7 +109,8 @@ function delete_restock($restock_id)
   return $stmt->execute();
 }
 
-function get_restock_by_status($status) {
+function get_restock_by_status($status)
+{
   $conn = getConnection();
   $sql = "SELECT restock_id, store_id, user_id, total_amount, status, restock_date, notes
           FROM modapay_restock WHERE status = ?";

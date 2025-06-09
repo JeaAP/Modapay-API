@@ -3,7 +3,10 @@ function get_all_products()
 {
   $conn = getConnection();
 
-  $sql = "SELECT product_id, product_name, category, price, stock_quantity, photo_url FROM modapay_products";
+  $sql = "SELECT product_id, product_name, category, description, price, 
+                  stock_size_s, stock_size_m, stock_size_l, stock_size_xl, 
+                  stock_quantity, photo_url 
+          FROM modapay_products";
 
   $result = $conn->query($sql);
   $products = array();
@@ -20,98 +23,94 @@ function get_product_by_id($product_id)
 {
   $conn = getConnection();
 
-  $sql = "SELECT product_id, product_name, category, price, stock_quantity, photo_url FROM modapay_products WHERE product_id = ?";
+  $sql = "SELECT product_id, product_name, category, description, price, 
+                  stock_size_s, stock_size_m, stock_size_l, stock_size_xl, 
+                  stock_quantity, photo_url 
+          FROM modapay_products WHERE product_id = ?";
   $stmt = $conn->prepare($sql);
   $stmt->bind_param("s", $product_id);
   $stmt->execute();
   $result = $stmt->get_result();
 
-  if ($result->num_rows > 0) {
-    return $result->fetch_assoc();
-  } else {
-    return null;
-  }
-
+  return $result->num_rows > 0 ? $result->fetch_assoc() : null;
 }
 
-function create_product($product_name, $category, $description, $price, $stock_quantity, $photo_url)
-{
+function create_product(
+  $product_name,
+  $category,
+  $description,
+  $price,
+  $stock_s,
+  $stock_m,
+  $stock_l,
+  $stock_xl,
+  $photo_url
+) {
   $conn = getConnection();
 
-  $sql = "INSERT INTO modapay_products (product_name, category, description, price, stock_quantity, photo_url) VALUES (?, ?, ?, ?, ?, ?)";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sssdis", $product_name, $category, $description, $price, $stock_quantity, $photo_url);
+  $stock_quantity = $stock_s + $stock_m + $stock_l + $stock_xl;
 
-  if ($stmt->execute()) {
-    return true;
-  } else {
-    return false;
-  }
+  $sql = "INSERT INTO modapay_products 
+          (product_name, category, description, price, 
+            stock_size_s, stock_size_m, stock_size_l, stock_size_xl, 
+            stock_quantity, photo_url)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param(
+    "sssdiiiiis",
+    $product_name,
+    $category,
+    $description,
+    $price,
+    $stock_s,
+    $stock_m,
+    $stock_l,
+    $stock_xl,
+    $stock_quantity,
+    $photo_url
+  );
+
+  return $stmt->execute();
 }
 
-function update_product($product_id, $product_name, $category, $description, $price, $stock_quantity, $photo_url)
-{
+function update_product(
+  $product_id,
+  $product_name,
+  $category,
+  $description,
+  $price,
+  $stock_s,
+  $stock_m,
+  $stock_l,
+  $stock_xl,
+  $photo_url
+) {
   $conn = getConnection();
 
-  $sql = "UPDATE modapay_products SET product_name = ?, category = ?, description = ?, price = ?, stock_quantity = ?, photo_url = ? WHERE product_id = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("sssdiss", $product_name, $category, $description, $price, $stock_quantity, $photo_url, $product_id);
+  $stock_quantity = $stock_s + $stock_m + $stock_l + $stock_xl;
 
-  if ($stmt->execute()) {
-    return true;
-  } else {
-    return false;
-  }
+  $sql = "UPDATE modapay_products 
+          SET product_name = ?, category = ?, description = ?, price = ?, 
+              stock_size_s = ?, stock_size_m = ?, stock_size_l = ?, stock_size_xl = ?, 
+              stock_quantity = ?, photo_url = ?
+          WHERE product_id = ?";
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param(
+    "sssdiiiiiss",
+    $product_name,
+    $category,
+    $description,
+    $price,
+    $stock_s,
+    $stock_m,
+    $stock_l,
+    $stock_xl,
+    $stock_quantity,
+    $photo_url,
+    $product_id
+  );
+
+  return $stmt->execute();
 }
 
-function delete_product($product_id)
-{
-  $conn = getConnection();
-
-  $sql = "DELETE FROM modapay_products WHERE product_id = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $product_id);
-  $result = $stmt->execute();
-
-  if ($result) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function get_product_price($product_id)
-{
-  $conn = getConnection();
-
-  $sql = "SELECT price FROM modapay_products WHERE product_id = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $product_id);
-  $stmt->execute();
-  $result = $stmt->get_result();
-
-  if ($result->num_rows > 0) {
-    $row = $result->fetch_assoc();
-    return $row['price'];
-  } else {
-    return false; // If the product doesn't exist
-  }
-}
-
-function get_product_by_category($category)
-{
-  $conn = getConnection();
-
-  $sql = "SELECT product_id, product_name, category, price, stock_quantity, photo_url FROM modapay_products WHERE category = ?";
-  $stmt = $conn->prepare($sql);
-  $stmt->bind_param("s", $category);
-  $stmt->execute();
-  $result = $stmt->get_result();
-
-  if ($result->num_rows > 0) {
-    return $result->fetch_all(MYSQLI_ASSOC);
-  } else {
-    return null;
-  }
-}
 ?>

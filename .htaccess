@@ -6,7 +6,7 @@
   RewriteCond %{REQUEST_FILENAME} !-d
 
   # Routing untuk semua URL di bawah /Rian/XI/attendify/modapay/ ke index.php dalam folder tersebut
-  RewriteRule ^Rian/XI/attendify/modapay/(.*)$ Rian/XI/attendify/modapay/index.php [QSA,L]
+  # RewriteRule ^Rian/XI/attendify/modapay/(.*)$ Rian/XI/attendify/modapay/index.php [QSA,L]
 
   # Routing untuk semua URL dan arahkan ke index.php
   RewriteRule ^(.*)$ index.php [QSA,L]

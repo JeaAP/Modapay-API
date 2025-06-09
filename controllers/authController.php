@@ -64,7 +64,6 @@ function auth_register_controller()
   }
 
   $result = register($username, $password);
-
   if ($result) {
     http_response_code(201);
     echo json_encode([

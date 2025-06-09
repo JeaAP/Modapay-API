@@ -15,7 +15,7 @@ function create_restock_controller()
     exit;
   }
 
-  $store_id = empty($data['store_id']) ? NULL : $data['store_id'];
+  $store_id = empty($data['store_id']) ? '1' : $data['store_id'];
   $user_id = empty($data['user_id']) ? NULL : $data['user_id'];
   $status = empty($data['status']) ? "pending" : $data['status'];
   $notes = isset($data['notes']) ? $data['notes'] : '';

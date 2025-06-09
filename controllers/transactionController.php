@@ -78,6 +78,27 @@ function get_all_transactions_controller()
   }
 }
 
+function get_transactions_by_date_controller($date)
+{
+  $transactions = get_transactions_by_date($date);
+  if ($transactions) {
+    http_response_code(200);
+    echo json_encode([
+      "status" => "success",
+      "message" => "Berhasil mendapatkan transaksi",
+      "data" => $transactions
+    ]);
+    exit;
+  } else {
+    http_response_code(404);
+    echo json_encode([
+      "status" => "fail",
+      "message" => "Transaksi tidak ditemukan"
+    ]);
+    exit;
+  }
+}
+
 function get_transaction_by_id_controller($transaction_id)
 {
   $transaction = get_transaction_by_id($transaction_id);

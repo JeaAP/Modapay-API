@@ -10,7 +10,11 @@ function handle_transaction_routes($url, $route_auth)
 
   if ($route === 'transactions') {
     if ($method == 'GET') {
-      get_all_transactions_controller();
+      if (isset($route_parts[1]) && $route_parts[1] != '') {
+        get_transactions_by_date_controller($route_parts[1]);
+      } else {
+        get_all_transactions_controller();
+      }
     } elseif ($method == 'POST') {
       create_transaction_controller();
     } else {

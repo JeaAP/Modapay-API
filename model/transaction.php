@@ -10,7 +10,14 @@ function create_transaction($user_id, $payment_method, $total_amount)
 {
   $conn = getConnection();
 
-  $transaction_id = generate_uuid();
+  do {
+    $transaction_id = 'TX-' . sprintf('%02d%04d', mt_rand(0, 99), mt_rand(0, 9999));
+    $sql_check = "SELECT transaction_id FROM modapay_transactions WHERE transaction_id = ?";
+    $stmt_check = $conn->prepare($sql_check);
+    $stmt_check->bind_param("s", $transaction_id);
+    $stmt_check->execute();
+    $stmt_check->store_result();
+  } while ($stmt_check->num_rows > 0);
 
   $sql = "INSERT INTO modapay_transactions (transaction_id, user_id, total_amount, payment_method) 
             VALUES (?, ?, ?, ?)";
@@ -36,12 +43,12 @@ function create_transaction_items($transaction_id, $items)
   $stmt = $conn->prepare($sql);
 
   foreach ($items as $item) {
-    $product = get_product_price($item['product_id']);
+    $product = get_product_by_id($item['product_id']);
 
     if ($product === false) {
       return false;
     }
-    $product_price = $product * $item['quantity'];
+    $product_price = $product['price'] * $item['quantity'];
 
     $stmt->bind_param("ssis", $transaction_id, $item['product_id'], $item['quantity'], $product_price);
     if (!$stmt->execute()) {
@@ -52,11 +59,32 @@ function create_transaction_items($transaction_id, $items)
   return true;
 }
 
+function get_transactions_by_date($date)
+{
+  $conn = getConnection();
+
+  $sql = "SELECT * FROM modapay_transactions WHERE DATE(transaction_date) = ?";
+
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("s", $date);
+  $stmt->execute();
+  $result = $stmt->get_result();
+
+  $transactions = [];
+  if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+      $transactions[] = $row;
+    }
+  }
+  $conn->close();
+  return $transactions;
+}
+
 function get_all_transactions()
 {
   $conn = getConnection();
 
-  $sql = "SELECT transaction_id, user_id, total_amount, payment_method, transaction_date 
+  $sql = "SELECT transaction_id, user_id, total_amount, payment_method, transaction_date, status
             FROM modapay_transactions";
 
   $result = $conn->query($sql);
@@ -74,7 +102,7 @@ function get_transaction_by_id($transaction_id)
 {
   $conn = getConnection();
 
-  $sql = "SELECT transaction_id, user_id, total_amount, payment_method, transaction_date 
+  $sql = "SELECT transaction_id, user_id, total_amount, payment_method, transaction_date, status
             FROM modapay_transactions WHERE transaction_id = ?";
 
   $stmt = $conn->prepare($sql);

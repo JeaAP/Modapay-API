@@ -35,36 +35,30 @@ function create_product_controller()
 
   if (!isset($data['product_name']) || !isset($data['price'])) {
     http_response_code(400);
-    echo json_encode([
-      "status" => "fail",
-      "message" => "Data tidak lengkap"
-    ]);
+    echo json_encode(["status" => "fail", "message" => "Data tidak lengkap"]);
     exit;
   }
 
-  $product_name = empty($data['product_name']) ? NULL : $data['product_name'];
-  $category = empty($data['category']) ? NULL : $data['category'];
-  $description = empty($data['description']) ? NULL : $data['description'];
-  $price = empty($data['price']) ? NULL : $data['price'];
-  $stock_quantity = empty($data['stock_quantity']) ? 0 : $data['stock_quantity'];
-  $photo_url = empty($data['photo_url']) ? NULL : $data['photo_url'];
+  $product_name = $data['product_name'] ?? null;
+  $category = $data['category'] ?? null;
+  $description = $data['description'] ?? null;
+  $price = $data['price'] ?? null;
+  $stock_s = $data['stock_size_s'] ?? 0;
+  $stock_m = $data['stock_size_m'] ?? 0;
+  $stock_l = $data['stock_size_l'] ?? 0;
+  $stock_xl = $data['stock_size_xl'] ?? 0;
+  $photo_url = $data['photo_url'] ?? null;
 
-  if (create_product($product_name, $category, $description, $price, $stock_quantity, $photo_url)) {
+  if (create_product($product_name, $category, $description, $price, $stock_s, $stock_m, $stock_l, $stock_xl, $photo_url)) {
     http_response_code(201);
-    echo json_encode([
-      "status" => "success",
-      "message" => "Product berhasil dibuat"
-    ]);
-    exit;
+    echo json_encode(["status" => "success", "message" => "Product berhasil dibuat"]);
   } else {
     http_response_code(500);
-    echo json_encode([
-      "status" => "fail",
-      "message" => "Gagal membuat product"
-    ]);
-    exit;
+    echo json_encode(["status" => "fail", "message" => "Gagal membuat product"]);
   }
+  exit;
 }
+
 
 function update_product_controller($product_id)
 {
@@ -72,45 +66,49 @@ function update_product_controller($product_id)
 
   if (!isset($data['product_name']) || !isset($data['price'])) {
     http_response_code(400);
-    echo json_encode([
-      "status" => "fail",
-      "message" => "Data tidak lengkap"
-    ]);
+    echo json_encode(["status" => "fail", "message" => "Data tidak lengkap"]);
     exit;
   }
 
-  if (!isset($product_id)) {
+  if (!$product_id) {
     http_response_code(400);
-    echo json_encode([
-      "status" => "fail",
-      "message" => "Product ID tidak ditemukan"
-    ]);
+    echo json_encode(["status" => "fail", "message" => "Product ID tidak ditemukan"]);
     exit;
   }
 
-  $product_name = empty($data['product_name']) ? NULL : $data['product_name'];
-  $category = empty($data['category']) ? NULL : $data['category'];
-  $description = empty($data['description']) ? NULL : $data['description'];
-  $price = empty($data['price']) ? NULL : $data['price'];
-  $stock_quantity = empty($data['stock_quantity']) ? 0 : $data['stock_quantity'];
-  $photo_url = empty($data['photo_url']) ? NULL : $data['photo_url'];
+  $product_name = $data['product_name'] ?? null;
+  $category = $data['category'] ?? null;
+  $description = $data['description'] ?? null;
+  $price = $data['price'] ?? null;
+  $stock_s = $data['stock_size_s'] ?? 0;
+  $stock_m = $data['stock_size_m'] ?? 0;
+  $stock_l = $data['stock_size_l'] ?? 0;
+  $stock_xl = $data['stock_size_xl'] ?? 0;
+  $photo_url = $data['photo_url'] ?? null;
 
-  if (update_product($product_id, $product_name, $category, $description, $price, $stock_quantity, $photo_url)) {
+  if (
+    update_product(
+      $product_id,
+      $product_name,
+      $category,
+      $description,
+      $price,
+      $stock_s,
+      $stock_m,
+      $stock_l,
+      $stock_xl,
+      $photo_url
+    )
+  ) {
     http_response_code(200);
-    echo json_encode([
-      "status" => "success",
-      "message" => "Product berhasil diperbarui"
-    ]);
-    exit;
+    echo json_encode(["status" => "success", "message" => "Product berhasil diperbarui"]);
   } else {
     http_response_code(500);
-    echo json_encode([
-      "status" => "fail",
-      "message" => "Gagal memperbarui product"
-    ]);
-    exit;
+    echo json_encode(["status" => "fail", "message" => "Gagal memperbarui product"]);
   }
+  exit;
 }
+
 
 function delete_product_controller($product_id)
 {

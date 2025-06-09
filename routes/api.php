@@ -3,8 +3,8 @@ $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 $route = trim(str_replace(BASE_URL_PATH, '', $path), '/');
 
 $route_parts = explode('/', $route);
-$route = $route_parts[0] ?? null; // gunakan 0 untuk localhost ||| 3
-$second_route = $route_parts[1] ?? null; // gunakan 1 untuk localhost ||| 4
+$route = $route_parts[1] ?? null; // gunakan 0 untuk localhost ||| 3
+$second_route = $route_parts[2] ?? null; // gunakan 1 untuk localhost ||| 4
 
 if (strpos($route, 'auth') === 0) {
   require_once __DIR__ . "/auth.php"; // Route ke Auth API
@@ -25,8 +25,7 @@ if (strpos($route, 'auth') === 0) {
 } else if (strpos($route, 'restocks') === 0 || strpos($route, 'restock') === 0) {
   require_once __DIR__ . "/restock.php"; // Route ke Restock API
   handle_restock_routes($route, $second_route);
-}
-else {
+} else {
   http_response_code(404);
   echo json_encode(["debug_route" => $route, "count" => count($route_parts), "message" => "Route not found"]);
   exit;
